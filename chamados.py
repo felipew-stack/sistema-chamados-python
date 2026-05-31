@@ -1,4 +1,5 @@
 import json
+import re
 from datetime import datetime
 
 ARQUIVO = "chamados.json"
@@ -8,6 +9,33 @@ try:
         chamados = json.load(arquivo)
 except (FileNotFoundError, json.JSONDecodeError):
     chamados = []
+
+
+# =========================
+# VALIDAÇÃO DE NOME
+# =========================
+def validar_nome(nome):
+    nome = nome.strip()
+
+    if len(nome) == 0:
+        return False
+
+    # apenas letras e espaços
+    if not re.match(r"^[A-Za-zÀ-ÿ\s]+$", nome):
+        return False
+
+    # bloqueio de palavras que indicam problema (evita erro no campo)
+    palavras_invalidas = [
+        "pc", "internet", "erro", "travando", "lento",
+        "não funciona", "bug", "problema"
+    ]
+
+    nome_lower = nome.lower()
+
+    if any(p in nome_lower for p in palavras_invalidas):
+        return False
+
+    return True
 
 
 def salvar_chamados():
@@ -59,6 +87,9 @@ def buscar_chamados():
         print(f"Status: {chamado['status']}")
 
 
+# =========================
+# MENU PRINCIPAL
+# =========================
 while True:
 
     print("\n===== SISTEMA DE CHAMADOS =====")
@@ -72,9 +103,20 @@ while True:
 
     opcao = input("Escolha uma opção: ")
 
+    # =========================
+    # CRIAR CHAMADO
+    # =========================
     if opcao == "1":
 
-        solicitante = input("Nome do solicitante: ")
+        # validação do nome
+        while True:
+            solicitante = input("Nome do solicitante: ")
+
+            if validar_nome(solicitante):
+                break
+            else:
+                print("\nNome inválido! Digite apenas um nome (ex: João Silva).")
+
         titulo = input("Título do chamado: ")
         descricao = input("Descrição do problema: ")
         prioridade = input("Prioridade (Baixa, Média ou Alta): ")
@@ -95,6 +137,9 @@ while True:
 
         print("\nChamado criado com sucesso!")
 
+    # =========================
+    # LISTAR
+    # =========================
     elif opcao == "2":
 
         print("\n1 - Ver todos")
@@ -109,6 +154,9 @@ while True:
             status = input("Status (Aberto, Em Atendimento, Resolvido): ")
             listar_chamados(status)
 
+    # =========================
+    # ALTERAR STATUS
+    # =========================
     elif opcao == "3":
 
         if len(chamados) == 0:
@@ -138,6 +186,9 @@ while True:
             except (ValueError, IndexError):
                 print("\nID inválido!")
 
+    # =========================
+    # EXCLUIR
+    # =========================
     elif opcao == "4":
 
         if len(chamados) == 0:
@@ -159,12 +210,14 @@ while True:
                 salvar_chamados()
 
                 print(
-                    f"\nChamado '{removido['titulo']}' removido com sucesso!"
-                )
+                    f"\nChamado '{removido['titulo']}' removido com sucesso!")
 
             except (ValueError, IndexError):
                 print("\nID inválido!")
 
+    # =========================
+    # DASHBOARD
+    # =========================
     elif opcao == "5":
 
         total = len(chamados)
@@ -182,10 +235,16 @@ while True:
         print(f"Em Atendimento: {atendimento}")
         print(f"Resolvidos: {resolvidos}")
 
+    # =========================
+    # SAIR
+    # =========================
     elif opcao == "6":
         print("\nEncerrando sistema...")
         break
 
+    # =========================
+    # BUSCA
+    # =========================
     elif opcao == "7":
         buscar_chamados()
 

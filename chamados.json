@@ -1,1 +1,29 @@
-[]
+[
+    {
+        "solicitante": "Felipe",
+        "titulo": "Impressora com defeito",
+        "descricao": "Não imprime",
+        "prioridade": "Média",
+        "tecnico": "Felipe Vieira",
+        "status": "Em Atendimento",
+        "data_abertura": "31/05/2026 11:16"
+    },
+    {
+        "solicitante": "Felipe Vieira",
+        "titulo": "PC travando",
+        "descricao": "PC trava no navegador",
+        "prioridade": "Alta",
+        "tecnico": "Felipe",
+        "status": "Aberto",
+        "data_abertura": "31/05/2026 11:21"
+    },
+    {
+        "solicitante": "João",
+        "titulo": "Impressora travando",
+        "descricao": "Impressora travando a folha",
+        "prioridade": "Média",
+        "tecnico": "Felipe",
+        "status": "Aberto",
+        "data_abertura": "31/05/2026 11:22"
+    }
+]
