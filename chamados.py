@@ -119,7 +119,8 @@ while True:
             print("\n===== ALTERAR STATUS =====")
 
             for indice, chamado in enumerate(chamados):
-                print(f"ID {indice} - {chamado['titulo']} ({chamado['status']})")
+                print(
+                    f"ID {indice} - {chamado['titulo']} ({chamado['status']})")
 
             try:
                 id_chamado = int(input("\nDigite o ID do chamado: "))
@@ -168,9 +169,12 @@ while True:
 
         total = len(chamados)
 
-        abertos = sum(1 for chamado in chamados if chamado["status"] == "Aberto")
-        atendimento = sum(1 for chamado in chamados if chamado["status"] == "Em Atendimento")
-        resolvidos = sum(1 for chamado in chamados if chamado["status"] == "Resolvido")
+        abertos = sum(
+            1 for chamado in chamados if chamado["status"] == "Aberto")
+        atendimento = sum(
+            1 for chamado in chamados if chamado["status"] == "Em Atendimento")
+        resolvidos = sum(
+            1 for chamado in chamados if chamado["status"] == "Resolvido")
 
         print("\n===== DASHBOARD =====")
         print(f"Total de chamados: {total}")
