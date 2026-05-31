@@ -25,5 +25,14 @@
         "tecnico": "Felipe",
         "status": "Aberto",
         "data_abertura": "31/05/2026 11:22"
+    },
+    {
+        "solicitante": "Felipe",
+        "titulo": "PC travando",
+        "descricao": "PC trava no navegador",
+        "prioridade": "Alta",
+        "tecnico": "Felipe Vieira",
+        "status": "Aberto",
+        "data_abertura": "31/05/2026 11:53"
     }
 ]

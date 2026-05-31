@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Chamados</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="topbar">
+        <h1>📋 Sistema de Chamados</h1>
+        <a class="btn" href="/criar">+ Novo Chamado</a>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard">
+
+        <div class="box">
+            <h2>{{ chamados|length }}</h2>
+            <p>Total</p>
+        </div>
+
+        <div class="box red">
+            <h2>{{ chamados|selectattr("status","equalto","Aberto")|list|length }}</h2>
+            <p>Abertos</p>
+        </div>
+
+        <div class="box yellow">
+            <h2>{{ chamados|selectattr("status","equalto","Em Atendimento")|list|length }}</h2>
+            <p>Em Atendimento</p>
+        </div>
+
+        <div class="box green">
+            <h2>{{ chamados|selectattr("status","equalto","Resolvido")|list|length }}</h2>
+            <p>Resolvidos</p>
+        </div>
+
+    </div>
+
+    <!-- CARDS -->
+    {% for c in chamados %}
+    <div class="card">
+
+        <div class="card-header">
+            <h3>{{ c.titulo }}</h3>
+            <span class="tag">{{ c.status }}</span>
+        </div>
+
+        <p><b>Solicitante:</b> {{ c.solicitante }}</p>
+        <p><b>Prioridade:</b> {{ c.prioridade }}</p>
+        <p><b>Técnico:</b> {{ c.tecnico }}</p>
+        <p><b>Data:</b> {{ c.data_abertura }}</p>
+
+        <div class="actions">
+
+            <a href="/status/{{ loop.index0 }}/Aberto" class="btn-small">Aberto</a>
+            <a href="/status/{{ loop.index0 }}/Em Atendimento" class="btn-small">Atendimento</a>
+            <a href="/status/{{ loop.index0 }}/Resolvido" class="btn-small">Resolvido</a>
+
+            <a href="/excluir/{{ loop.index0 }}" class="btn-danger">Excluir</a>
+
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>
