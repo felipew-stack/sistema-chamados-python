@@ -15,6 +15,50 @@ def salvar_chamados():
         json.dump(chamados, arquivo, indent=4, ensure_ascii=False)
 
 
+def listar_chamados(filtro_status=None):
+    if len(chamados) == 0:
+        print("\nNenhum chamado cadastrado.")
+        return
+
+    print("\n===== LISTA DE CHAMADOS =====")
+
+    for indice, chamado in enumerate(chamados):
+
+        if filtro_status and chamado["status"] != filtro_status:
+            continue
+
+        print(f"\nID: {indice}")
+        print(f"Solicitante: {chamado['solicitante']}")
+        print(f"Título: {chamado['titulo']}")
+        print(f"Descrição: {chamado['descricao']}")
+        print(f"Prioridade: {chamado['prioridade']}")
+        print(f"Técnico: {chamado['tecnico']}")
+        print(f"Status: {chamado['status']}")
+        print(f"Data: {chamado['data_abertura']}")
+
+
+def buscar_chamados():
+    termo = input("\nDigite título ou solicitante: ").lower()
+
+    encontrados = []
+
+    for indice, chamado in enumerate(chamados):
+        if termo in chamado["titulo"].lower() or termo in chamado["solicitante"].lower():
+            encontrados.append((indice, chamado))
+
+    if not encontrados:
+        print("\nNenhum chamado encontrado.")
+        return
+
+    print("\n===== RESULTADOS DA BUSCA =====")
+
+    for indice, chamado in encontrados:
+        print(f"\nID: {indice}")
+        print(f"Título: {chamado['titulo']}")
+        print(f"Solicitante: {chamado['solicitante']}")
+        print(f"Status: {chamado['status']}")
+
+
 while True:
 
     print("\n===== SISTEMA DE CHAMADOS =====")
@@ -24,6 +68,7 @@ while True:
     print("4 - Excluir chamado")
     print("5 - Dashboard")
     print("6 - Sair")
+    print("7 - Buscar chamados")
 
     opcao = input("Escolha uma opção: ")
 
@@ -52,23 +97,17 @@ while True:
 
     elif opcao == "2":
 
-        if len(chamados) == 0:
-            print("\nNenhum chamado cadastrado.")
+        print("\n1 - Ver todos")
+        print("2 - Filtrar por status")
 
-        else:
+        escolha = input("Escolha: ")
 
-            print("\n===== LISTA DE CHAMADOS =====")
+        if escolha == "1":
+            listar_chamados()
 
-            for indice, chamado in enumerate(chamados):
-
-                print(f"\nID: {indice}")
-                print(f"Solicitante: {chamado['solicitante']}")
-                print(f"Título: {chamado['titulo']}")
-                print(f"Descrição: {chamado['descricao']}")
-                print(f"Prioridade: {chamado['prioridade']}")
-                print(f"Técnico: {chamado['tecnico']}")
-                print(f"Status: {chamado['status']}")
-                print(f"Data: {chamado['data_abertura']}")
+        elif escolha == "2":
+            status = input("Status (Aberto, Em Atendimento, Resolvido): ")
+            listar_chamados(status)
 
     elif opcao == "3":
 
@@ -80,14 +119,10 @@ while True:
             print("\n===== ALTERAR STATUS =====")
 
             for indice, chamado in enumerate(chamados):
-                print(
-                    f"ID {indice} - {chamado['titulo']} ({chamado['status']})"
-                )
+                print(f"ID {indice} - {chamado['titulo']} ({chamado['status']})")
 
             try:
-                id_chamado = int(
-                    input("\nDigite o ID do chamado: ")
-                )
+                id_chamado = int(input("\nDigite o ID do chamado: "))
 
                 novo_status = input(
                     "Novo status (Aberto, Em Atendimento ou Resolvido): "
@@ -133,20 +168,9 @@ while True:
 
         total = len(chamados)
 
-        abertos = sum(
-            1 for chamado in chamados
-            if chamado["status"] == "Aberto"
-        )
-
-        atendimento = sum(
-            1 for chamado in chamados
-            if chamado["status"] == "Em Atendimento"
-        )
-
-        resolvidos = sum(
-            1 for chamado in chamados
-            if chamado["status"] == "Resolvido"
-        )
+        abertos = sum(1 for chamado in chamados if chamado["status"] == "Aberto")
+        atendimento = sum(1 for chamado in chamados if chamado["status"] == "Em Atendimento")
+        resolvidos = sum(1 for chamado in chamados if chamado["status"] == "Resolvido")
 
         print("\n===== DASHBOARD =====")
         print(f"Total de chamados: {total}")
@@ -155,10 +179,11 @@ while True:
         print(f"Resolvidos: {resolvidos}")
 
     elif opcao == "6":
-
         print("\nEncerrando sistema...")
         break
 
-    else:
+    elif opcao == "7":
+        buscar_chamados()
 
+    else:
         print("\nOpção inválida!")
