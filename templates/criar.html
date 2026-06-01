@@ -1,28 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Criar Chamado</title>
+
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<h1>Novo Chamado</h1>
+<div class="container">
 
-<form method="POST">
+    <h1>➕ Novo Chamado</h1>
 
-    <input name="solicitante" placeholder="Solicitante"><br><br>
-    <input name="titulo" placeholder="Título"><br><br>
+    <form method="POST">
 
-    <textarea name="descricao" placeholder="Descrição"></textarea><br><br>
+        <label>Solicitante</label><br>
+        <input type="text" name="solicitante" required>
+        <br><br>
 
-    <input name="prioridade" placeholder="Prioridade"><br><br>
-    <input name="tecnico" placeholder="Técnico"><br><br>
+        <label>Título</label><br>
+        <input type="text" name="titulo" required>
+        <br><br>
 
-    <button type="submit">Criar</button>
+        <label>Descrição</label><br>
+        <textarea
+            name="descricao"
+            rows="5"
+            required
+            placeholder="Descreva o problema com o máximo de detalhes possível..."
+        ></textarea>
+        <br><br>
 
-</form>
+        <label>Prioridade</label><br>
+        <select name="prioridade" required>
+            <option value="">Selecione</option>
+            <option value="Baixa">Baixa</option>
+            <option value="Média">Média</option>
+            <option value="Alta">Alta</option>
+            <option value="Crítica">Crítica</option>
+        </select>
+        <br><br>
 
-<br>
-<a href="/chamados">Voltar</a>
+        <button type="submit">Abrir Chamado</button>
+
+    </form>
+
+    <br>
+
+    <a href="/chamados">← Voltar para lista</a>
+
+</div>
 
 </body>
 </html>

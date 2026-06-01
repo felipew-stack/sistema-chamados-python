@@ -80,14 +80,25 @@ def criar():
         if not validar_nome(solicitante):
             return "Nome inválido"
 
+        descricao = request.form["descricao"]
+
+        if len(descricao.strip()) < 10:
+            return "A descrição deve ter pelo menos 10 caracteres."
+
         chamados = carregar()
 
+        numero_chamado = (
+            f"CH-{datetime.now().strftime('%Y%m%d')}-"
+            f"{len(chamados)+1:03d}"
+        )
+
         chamado = {
+            "id": numero_chamado,
             "solicitante": solicitante,
             "titulo": request.form["titulo"],
-            "descricao": request.form["descricao"],
+            "descricao": descricao,
             "prioridade": request.form["prioridade"],
-            "tecnico": request.form["tecnico"],
+            "tecnico": "Não atribuído",
             "status": "Aberto",
             "data_abertura": datetime.now().strftime("%d/%m/%Y %H:%M")
         }
